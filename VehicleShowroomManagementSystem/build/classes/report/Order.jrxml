@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Order" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<subDataset name="totalPrice">
+		<parameter name="orderID2" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[select sum(Price*Quantity) as totaPrice from OrderDetails inner join Car
+on Car.CarNo = OrderDetails.CarNo
+ where OrderID  = $P{orderID2}]]>
+		</queryString>
+		<field name="totaPrice" class="java.lang.Double"/>
+	</subDataset>
+	<parameter name="orderID" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select *, FirstName+' '+LastName as CustomerName , convert(varchar, [Order].OnOrder, 103) as OrderDate, (select Employee.FirstName +' '+Employee.LastName from Employee where EmployeeID = [Order].EmployeeID) as EmployeeName from Customer inner join [Order] on Customer.CustomerID = [Order].CustomerID inner join OrderDetails on [Order].OrderID = OrderDetails.OrderID inner join Car on Car.CarNo = OrderDetails.CarNo inner join CarModel on Car.ModelName = CarModel.ModelName inner join Manufactory on Manufactory.ManufactoryID = CarModel.ManufactoryID
+where [Order].OrderID = $P{orderID}]]>
+	</queryString>
+	<field name="CustomerID" class="java.lang.Long"/>
+	<field name="FirstName" class="java.lang.String"/>
+	<field name="LastName" class="java.lang.String"/>
+	<field name="Sex" class="java.lang.Boolean"/>
+	<field name="DateOfBirth" class="java.sql.Date"/>
+	<field name="Address" class="java.lang.String"/>
+	<field name="Phone" class="java.lang.Integer"/>
+	<field name="OrderID" class="java.lang.Long"/>
+	<field name="OnOrder" class="java.sql.Date"/>
+	<field name="EmployeeID" class="java.lang.Long"/>
+	<field name="Request" class="java.lang.String"/>
+	<field name="Confirmation" class="java.lang.Boolean"/>
+	<field name="CarNo" class="java.lang.Long"/>
+	<field name="Quantity" class="java.lang.Integer"/>
+	<field name="ModelName" class="java.lang.String"/>
+	<field name="Name" class="java.lang.String"/>
+	<field name="Price" class="java.lang.Double"/>
+	<field name="Status" class="java.lang.Boolean"/>
+	<field name="AddInfor" class="java.lang.String"/>
+	<field name="Image" class="java.lang.Object"/>
+	<field name="ManufactoryID" class="java.lang.Integer"/>
+	<field name="ManufactoryName" class="java.lang.String"/>
+	<field name="Logo" class="java.lang.Object"/>
+	<field name="CustomerName" class="java.lang.String"/>
+	<field name="OrderDate" class="java.lang.String"/>
+	<field name="EmployeeName" class="java.lang.String"/>
+	<variable name="OrderID_1" class="java.lang.Long" resetType="Column" calculation="First">
+		<variableExpression><![CDATA[$F{OrderID}]]></variableExpression>
+	</variable>
+	<variable name="EmployeeName_1" class="java.lang.Integer" resetType="Column" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{EmployeeName}]]></variableExpression>
+	</variable>
+	<variable name="OnOrder_1" class="java.lang.Integer" resetType="Column" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{OnOrder}]]></variableExpression>
+	</variable>
+	<variable name="OrderDate_1" class="java.lang.Integer" resetType="Column" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{OrderDate}]]></variableExpression>
+	</variable>
+	<variable name="OrderDate_2" class="java.lang.Integer" resetType="Column" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{OrderDate}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="83" splitType="Stretch">
+			<staticText>
+				<reportElement style="SubTitle" x="63" y="43" width="200" height="22" forecolor="#999999"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Management System]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Title" x="0" y="10" width="263" height="33" forecolor="#333333"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Vehicle Showroom]]></text>
+			</staticText>
+			<image>
+				<reportElement x="278" y="0" width="300" height="83"/>
+				<imageExpression class="java.lang.String"><![CDATA["cropped-cropped-car-longevity-banner.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="225" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="30" width="555" height="68"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="22" isBold="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Order Report]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="367" y="98" width="83" height="28" forecolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isItalic="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[On Order:]]></text>
+			</staticText>
+			<textField evaluationTime="Column">
+				<reportElement x="98" y="106" width="120" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$V{OrderID_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="106" width="98" height="20"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Purchase Order ID:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="126" width="98" height="28"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Customer Name:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="184" width="98" height="41"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Calibri" size="15"/>
+				</textElement>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="114" y="184" width="100" height="41"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Calibri" size="15"/>
+				</textElement>
+				<text><![CDATA[Model]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="228" y="184" width="70" height="41"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Calibri" size="15"/>
+				</textElement>
+				<text><![CDATA[Quantity]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="317" y="184" width="87" height="41"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Calibri" size="15"/>
+				</textElement>
+				<text><![CDATA[Price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="184" width="125" height="41"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Calibri" size="15"/>
+				</textElement>
+				<text><![CDATA[Manufactory]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="450" y="98" width="105" height="28" forecolor="#666666"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{OrderDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="98" y="126" width="120" height="28"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{CustomerName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="154" width="94" height="26"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<text><![CDATA[Employee Name:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="98" y="154" width="120" height="26"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{EmployeeName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="0" y="1" width="98" height="23"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="114" y="1" width="100" height="23"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ModelName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="228" y="0" width="70" height="24"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{Quantity}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="317" y="1" width="87" height="23"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{Price}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="430" y="0" width="125" height="24"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ManufactoryName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

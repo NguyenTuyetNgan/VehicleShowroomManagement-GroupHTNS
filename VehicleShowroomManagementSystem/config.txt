@@ -1,0 +1,10 @@
+host=localhost
+
+port=1433
+
+database=VehicleShowroomManagementSystem
+
+user=sa
+
+password=123
+
